@@ -4,7 +4,7 @@ import time
 
 print("Sure, Why not?")
 
-path = r"C:/Users/mike1/Downloads"
+path = r"" + os.environ['USERPROFILE'] +"\\Downloads"
 
 
 for x in os.listdir(path):
