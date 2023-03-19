@@ -8,6 +8,8 @@ increment = 0
 
 os.remove('ExcelFiles/output1.xlsx')
 data1 = []
+teamData = []
+DataFr = []
 for x in os.listdir(path):
     increment +=1
     NoOfColomns.append(increment)
@@ -15,13 +17,15 @@ for x in os.listdir(path):
         data = json.load(json_file)
         data1.append(data)
 
-DataFr = pandas.DataFrame(data1, index= [NoOfColomns])
-
-print(DataFr)
-DataFr.to_excel('output1.xlsx', engine='xlsxwriter')
-FixDirectory = os.rename('output1.xlsx','ExcelFiles/output1.xlsx' )
-
-
-
-
-
+writer = pandas.ExcelWriter('ExcelFiles/output1.xlsx', engine = 'xlsxwriter')
+increment = 0
+for x in data1:
+    teamData.clear()
+    teamNum = x["Team#"]
+    for y in data1:
+        if(y["Team#"] == teamNum):
+            teamData.append(y)
+    DataFr.append(pandas.DataFrame(teamData))
+    DataFr[increment].to_excel(writer, sheet_name="Team "+teamData[0]["Team#"])       
+    increment +=1
+writer.close()
